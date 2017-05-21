@@ -70,6 +70,8 @@ typedef struct Call
 
     u_long id;			/* unique id */
 
+    int flag;
+
     /* Connection this call is being sent on.  This pointer is NOT
        reference counted as otherwise we would get a recursive
        dependency between connections and calls....  */

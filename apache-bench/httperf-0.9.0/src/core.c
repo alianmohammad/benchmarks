@@ -446,6 +446,7 @@ do_send (Conn *conn)
 	  conn_failure (conn, errno);
 	  return;
 	}
+      m5_work_begin(0, call->id);
 
       call->req.size += nsent;
 
@@ -561,6 +562,14 @@ do_recv (Conn *s)
       SYSCALL (READ,
 	       nread = read (s->sd, buf, sizeof (buf) - 1));
     }
+  if (c->flag == 0) { 
+    if (nread > 1024)
+        m5_work_end(0, c->id);
+    else
+        m5_work_end(1, c->id);
+    c->flag = 1;
+  }
+
   saved_errno = errno;
   if (nread <= 0)
     {

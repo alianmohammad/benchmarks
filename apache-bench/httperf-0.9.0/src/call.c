@@ -56,6 +56,7 @@ call_init (Call *c)
   c->req.iov[IE_NEWLINE1].iov_len = 2;
   c->req.iov[IE_NEWLINE2].iov_base = (caddr_t) "\r\n";
   c->req.iov[IE_NEWLINE2].iov_len = 2;
+  c->flag = 0;
 }
 
 void
