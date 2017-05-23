@@ -14,7 +14,7 @@ kernel=$M5_PATH/binaries/vmlinux.vexpress_gem5_v1_64.20170426
 dtb=$M5_PATH/binaries/armv8_gem5_v1_4cpu.20170426.dtb
 
 script=$(pwd)/run-ab.rcS
-$debugflag="--debug-flags=WorkItems"
+debugflag="--debug-flags=WorkItems"
 
 $M5_PATH/build/ARM/gem5.opt $debugflag -d $rundir \
                             $M5_PATH/configs/example/arm/fs_bigLITTLE.py \

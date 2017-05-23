@@ -23,8 +23,23 @@ else
 fi
 # set hostname
 /bin/hostname tux0
-# restart mysql server
-/bin/bash service mysql restart
+# restart mysql server in safemode
+/bin/bash service mysql stop
+mysqld_safe --skip-grant-tables &
+
+# wait for the mysql server to start
+while :
+do
+    if pgrep -x "mysqld" > /dev/null
+    then
+        sleep 1
+        break
+    else
+        echo "mysql is not started yet"
+        ps aux | egrep mysqld
+        sleep 1
+    fi
+done
 
 cd /root/apache-bench
 
