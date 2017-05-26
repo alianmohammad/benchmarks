@@ -1,0 +1,40 @@
+#!/bin/bash
+# Authors: Mohammad Alian <malian2@illinois.edu>
+# rcS script for running apache-bench. We use httperf to send HTTP requests
+# to the apache server
+
+# rate of sending requests in Request per Sec (RPS)
+RATE=100
+# burst size
+BURST=20
+
+MY_RANK=$(/sbin/m5 initparam dist-rank)
+[ $? = 0 ] || { echo "m5 initparam failed"; exit -1; }
+MY_SIZE=$(/sbin/m5 initparam dist-size)
+[ $? = 0 ] || { echo "m5 initparam failed"; exit -1; }
+
+PERIOD=$(echo "scale=4; $BURST*$MY_SIZE/$RATE" | bc -l)
+
+if [ "$MY_RANK" == "0" ]
+then
+    echo "sleep forever"
+    sleep 10000
+else
+    echo "starting httperf: rate = $RATE RPS; burst size = $BURST; period = $PERIOD"
+
+    # database size in MB. This should be smaller than the generated dataset size
+    # loaded into the mysql server. Please look at boot-apache-bench.rcS
+    DB_SIZE=1024
+
+    # run httperf with many sessions to run for a long time. In this case it will
+    # run for 200000 * 0.1 / 20 = 1000 sec
+    /root/apache-bench/httperf-0.9.0/src/httperf --server=127.0.0.1 \
+                                                 --port=80 \
+                                                 --uri=http://127.0.0.1/index.php?size=$DB_SIZE \
+                                                 --period e$PERIOD \
+                                                 --burst-length $BURST \
+                                                 --wsess 200000,$BURST,1 \
+                                                 --timeout 1
+fi
+
+/sbin/m5 exit 1
