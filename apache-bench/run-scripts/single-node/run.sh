@@ -5,7 +5,7 @@
 # Please make sure that you first run ckpt.sh and also set
 # ckpt variable properly
 
-ckpt=$(pwd)/ckptdir/single-node-ab
+ckpt=$(pwd)/ckptdir/single-node-ab/<ckpt number>
 rundir=$(pwd)/rundir/single-node-ab
 diskimage=$M5_PATH/disks/aarch64-ubuntu-trusty-headless.img
 

@@ -28,7 +28,7 @@ else
 
     # run httperf with many sessions to run for a long time. In this case it will
     # run for 200000 * 0.1 / 20 = 1000 sec
-    /root/apache-bench/httperf-0.9.0/src/httperf --server=127.0.0.1 \
+    /root/httperf-0.9.0/src/httperf --server=127.0.0.1 \
                                                  --port=80 \
                                                  --uri=http://127.0.0.1/index.php?size=$DB_SIZE \
                                                  --period e$PERIOD \

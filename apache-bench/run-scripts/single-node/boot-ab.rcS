@@ -43,11 +43,10 @@ done
 
 cd /root/apache-bench
 
-# create mysql db and table
-php -f create-db-tbl.php
-
-# load db by the generated dataset
-mysqlimport -u root --local benchmark_0 benchmark_tbl.ini --lines-terminated-by="\n" --fields-terminated-by=","
+# create mysql db and table and load db by the generated dataset
+# please un-comment these two lines if you don't use the given disk-image
+#php -f create-db-tbl.php
+#mysqlimport -u root --local benchmark_0 benchmark_tbl.ini --lines-terminated-by="\n" --fields-terminated-by=","
 
 # take a checkpoint
 /sbin/m5 checkpoint
